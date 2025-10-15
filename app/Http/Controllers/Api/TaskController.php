@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TaskRequest;
 use App\Http\Resources\TaskCollection;
 use App\Http\Resources\TaskResource;
-use App\Http\Resources\TaskStatisticsResource;
 use App\Services\TaskService;
 use App\DTOs\TaskDTO;
 use Illuminate\Http\JsonResponse;
@@ -84,14 +83,4 @@ class TaskController extends Controller
         ]);
     }
 
-    public function statistics(): JsonResponse
-    {
-        $stats = $this->taskService->getTaskStatistics();
-
-        return response()->json([
-            'success' => true,
-            'data' => new TaskStatisticsResource($stats),
-            'message' => 'Статистика задач успешно получена'
-        ]);
-    }
 }

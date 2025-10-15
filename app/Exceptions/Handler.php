@@ -39,7 +39,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $e): JsonResponse
     {
-        // Handle API requests
+
         if ($request->is('api/*') || $request->expectsJson()) {
             return $this->handleApiException($request, $e);
         }
@@ -52,12 +52,10 @@ class Handler extends ExceptionHandler
      */
     private function handleApiException(Request $request, Throwable $e): JsonResponse
     {
-        // Custom API exceptions
         if ($e instanceof ApiException) {
             return $e->render($request);
         }
 
-        // Model not found
         if ($e instanceof ModelNotFoundException) {
             return response()->json([
                 'success' => false,
@@ -67,7 +65,6 @@ class Handler extends ExceptionHandler
             ], 404);
         }
 
-        // Validation errors
         if ($e instanceof ValidationException) {
             return response()->json([
                 'success' => false,
@@ -77,7 +74,6 @@ class Handler extends ExceptionHandler
             ], 422);
         }
 
-        // Route not found
         if ($e instanceof NotFoundHttpException) {
             return response()->json([
                 'success' => false,
@@ -87,7 +83,6 @@ class Handler extends ExceptionHandler
             ], 404);
         }
 
-        // Method not allowed
         if ($e instanceof MethodNotAllowedHttpException) {
             return response()->json([
                 'success' => false,
@@ -97,7 +92,6 @@ class Handler extends ExceptionHandler
             ], 405);
         }
 
-        // Generic server error
         return response()->json([
             'success' => false,
             'message' => 'Внутренняя ошибка сервера.',

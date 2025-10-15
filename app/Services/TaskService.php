@@ -6,7 +6,6 @@ use App\DTOs\TaskDTO;
 use App\Exceptions\TaskNotFoundException;
 use App\Models\Task;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class TaskService
 {
@@ -60,19 +59,4 @@ class TaskService
         return Task::where('status', $status)->get();
     }
 
-    public function getTaskStatistics(): array
-    {
-        $total = Task::count();
-        $pending = Task::where('status', 'pending')->count();
-        $inProgress = Task::where('status', 'in_progress')->count();
-        $completed = Task::where('status', 'completed')->count();
-
-        return [
-            'total' => $total,
-            'pending' => $pending,
-            'in_progress' => $inProgress,
-            'completed' => $completed,
-            'completion_rate' => $total > 0 ? round(($completed / $total) * 100, 2) : 0
-        ];
-    }
 }
